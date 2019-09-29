@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginFormComponent } from './shared/components';
-import { AuthGuardService } from './shared/services';
+import { AuthService, AuthGuardService } from './shared/services';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { DisplayDataComponent } from './pages/display-data/display-data.component';
@@ -10,53 +10,27 @@ import { EmployeeCreateComponent } from './pages/employee/employee-create/employ
 import { FormComponent } from './pages/component/form/form.component';
 import { BasicSampleComponent } from './pages/component/basic-sample/basic-sample.component';
 
-const routes: Routes = [
-  {
-    path: 'display-data',
-    component: DisplayDataComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'profile',
-    component: ProfileComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'login-form',
-    component: LoginFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'employee',
-    component: EmployeeCreateComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'basic-form',
-    component: FormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'basic-sample',
-    component: BasicSampleComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: '**',
-    redirectTo: 'home',
-    canActivate: [ AuthGuardService ]
-  }
+const appRoutes: Routes = [
+  { path: 'pages',runGuardsAndResolvers: 'always', canActivate: [AuthGuardService],
+    children: [
+            { path: 'user', loadChildren: './pages/user-module/user.module#UserModule'},
+           ]
+          }  ,
+          {    path: '**',
+          redirectTo: 'home',
+          canActivate: [ AuthGuardService ] },
+           { path: 'login-form', component: LoginFormComponent },
+           { path: 'employee', component: EmployeeCreateComponent },
+           { path: 'basic-form', component: FormComponent },
+           { path: 'basic-sample', component: BasicSampleComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), DxDataGridModule, DxFormModule],
-  providers: [AuthGuardService],
+  imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule],
-  declarations: [HomeComponent, ProfileComponent, DisplayDataComponent]
+  providers: [AuthGuardService]
 })
+
 export class AppRoutingModule { }
+
+

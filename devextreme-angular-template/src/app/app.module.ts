@@ -19,12 +19,13 @@ import { Service } from './services/employee.service';
 import { BasicSampleComponent } from './pages/component/basic-sample/basic-sample.component';
 import { FormComponent } from './pages/component/form/form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './pages/home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
   EmployeeCreateComponent,
   BasicSampleComponent,
-  FormComponent
+  FormComponent, HomeComponent
   ],
   imports: [
     BrowserModule,
